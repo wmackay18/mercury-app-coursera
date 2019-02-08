@@ -1,0 +1,57 @@
+---
+title: "Mercury Pressure App"
+author: "William MacKay"
+date: "2/7/2019"
+output: ioslides_presentation
+---
+
+## Application Overview
+
+This is a rather simple application that takes a tempature input from the user and predicts the vapor pressure using a polynomial regression. 
+
+All the user has to do is select the desired temperature with the slider in the side panel. 
+
+The vapor pressure prediction is displayed in text and on a plot in main panel. 
+
+## The Data
+
+The data used to make this prediction is the "pressure" data from the R package **Datasets**
+
+```{r data, echo = TRUE}
+library(datasets)
+head(pressure)
+
+```
+
+## Main Features of the Application
+
+- Temperature Select Slider
+- Prediction Display (text and plot)
+- Polynomial Prediction Model
+
+## The Prediction Model
+
+```{r model, echo=FALSE}
+# Avoid object error
+temperature <- pressure$temperature
+
+# Build model
+model <- lm(pressure ~ poly(temperature, 10, raw = TRUE), data = pressure)
+
+```
+
+This model leverages polynomials due to the exponential nature of the dataset. A purely linear model would produce inaccurate results. 
+
+## Example
+
+If the user were to select 300 as the temperature, the model would produce this answer: 
+
+```{r example, warning=FALSE}
+result <- predict(model, newdata = data.frame(temperature = 300))
+result
+```
+
+
+## Thank you!
+
+See the app here: (https://wmackay.shinyapps.io/Mercury_Pressure_App) 
